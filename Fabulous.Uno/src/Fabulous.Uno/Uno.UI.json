@@ -1,0 +1,60 @@
+{
+  "assemblies": [
+    "packages/neutral/Uno.UI/lib/netstandard2.0/Uno.UI.dll",
+    "Fabulous.Uno/src/Fabulous.Uno.Core/bin/Debug/netstandard2.0/Fabulous.Uno.Core.dll"
+  ],
+  "outputNamespace": "Fabulous.Uno",
+  "types": [
+    {
+      "type": "Windows.UI.Xaml.DependencyObject",
+      "canBeInstantiated": false,
+      "properties": [
+        {
+          "source": null,
+          "Name": "Ref",
+          "canBeUpdated": false,
+          "defaultValue": "null",
+          "inputType": "ViewRef"
+        },
+        {
+          "source": null,
+          "name": "Tag",
+          "canBeUpdated": false,
+          "defaultValue": "null",
+          "inputType": "obj"
+        }
+      ],
+      "events": [
+        {
+          "source": null,
+          "name": "Created",
+          "canBeUpdated": false,
+          "inputType": "obj -> unit",
+          "modelType": "obj -> unit"
+        }
+      ]
+    },
+    {
+      "type": "Windows.UI.Xaml.UIElement",
+      "canBeInstantiated": false,
+      "properties": [
+        {
+          "source": "Opacity",
+        }
+      ],
+      "events": [
+      ]
+    },
+    {
+      "type": "Windows.UI.Xaml.FrameworkElement",
+      "canBeInstantiated": false,
+      "properties": [
+        {
+          "source": "Opacity",
+        }
+      ],
+      "events": [
+      ]
+    }
+  ]
+}

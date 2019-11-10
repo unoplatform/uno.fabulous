@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\..\SourceLink.props" />
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Description>F# bindings for using declarative UI with Fabulous in Uno</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\Fabulous.Uno.Core\InputTypes.fs" />
+    <Compile Include="..\Fabulous.Uno.Core\CustomControls.fs" />
+    <Compile Include="..\Fabulous.Uno.Core\ViewHelpers.fs" />
+    <Compile Include="..\Fabulous.Uno.Core\ViewConverters.fs" />
+    <Compile Include="..\Fabulous.Uno.Core\ViewUpdaters.fs" />
+    <Compile Include="..\Fabulous.Uno.Core\ViewExtensions.fs" />
+    <Compile Include="Uno.UI.fs" />
+    <None Include="Uno.UI.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Uno.UI" />
+    <ProjectReference Include="..\..\..\src\Fabulous\Fabulous.fsproj" />
+  </ItemGroup>
+  <Import Project="..\..\..\Packages.targets" />
+</Project>

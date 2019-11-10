@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Fabulous.XamarinForms.Generator": {
+      "commandName": "Project",
+      "commandLineArgs": "-m Fabulous.Uno/src/Fabulous.Uno/Uno.UI.json -o Fabulous.Uno/src/Fabulous.Uno/Uno.UI.fs -d",
+      "workingDirectory": "../../.."
+    }
+  }
+}

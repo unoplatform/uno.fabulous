@@ -196,6 +196,19 @@ Target.create "RunGeneratorForFabulousXamarinForms" (fun _ ->
     )
 )
 
+Target.create "RunGeneratorForFabulousUno" (fun _ ->
+    let generatorPath = buildDir + "/Fabulous.XamarinForms/tools/Fabulous.Uno.Generator/Fabulous.Uno.Generator.dll"
+    let bindingsFilePath = "Fabulous.Uno/src/Fabulous.Uno/Uno.UI.Core.json"
+    let outputFilePath = "Fabulous.Uno/src/Fabulous.Uno/Uno.UI.Core.fs" 
+
+    DotNet.exec id generatorPath (sprintf "-m %s -o %s" bindingsFilePath outputFilePath)
+    |> (fun x ->
+        match x.OK with
+        | true -> ()
+        | false -> failwith "The generator stopped due to an exception"
+    )
+)
+
 Target.create "BuildFabulousXamarinForms" (fun _ -> 
     !! "Fabulous.XamarinForms/src/Fabulous.XamarinForms/Fabulous.XamarinForms.fsproj"
     |> dotnetBuild "Fabulous.XamarinForms"
