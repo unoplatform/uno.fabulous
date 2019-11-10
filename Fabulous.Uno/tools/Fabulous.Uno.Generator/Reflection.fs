@@ -28,9 +28,10 @@ module Reflection =
             match ``type``.ContainsGenericParameters with
             | true -> return None // Generic types are not supported
             | false ->
-                let! dependencyPropertyInfo = ``type``.GetProperty(propertyName + "Property")
-                if dependencyPropertyInfo <> null then
-                    let! filteredProperties = ``type``.GetProperties() |> Array.filter (fun m -> m.Name.Equals(propertyName))
+                let dependencyPropertyFieldInfo = ``type``.GetField(propertyName + "Property")
+                let dependencyPropertyInfo = ``type``.GetProperty(propertyName + "Property")
+                if dependencyPropertyInfo <> null || dependencyPropertyFieldInfo <> null then
+                    let filteredProperties = ``type``.GetProperties() |> Array.filter (fun m -> m.Name.Equals(propertyName))
                     return match filteredProperties with
                             | [|property|] -> Some { 
                                             Name = propertyName

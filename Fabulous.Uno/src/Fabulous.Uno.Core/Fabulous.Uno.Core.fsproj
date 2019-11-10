@@ -9,6 +9,7 @@
     <Compile Include="CustomControls.fs" />
     <Compile Include="ViewHelpers.fs" />
     <Compile Include="ViewConverters.fs" />
+    <Compile Include="Program.fs" />
     <Compile Include="ViewUpdaters.fs" />
     <Compile Include="ViewExtensions.fs" />
   </ItemGroup>

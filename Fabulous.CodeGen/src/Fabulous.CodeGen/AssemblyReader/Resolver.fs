@@ -26,6 +26,11 @@ module Resolver =
             | null -> false
             | :? GenericInstanceType as git -> git.ElementType.FullName = baseTypeName
             | baseType -> baseType.FullName = baseTypeName
+            ||
+            match tdef.Interfaces.ToArray() |> Array.filter(fun i -> i.InterfaceType.FullName = baseTypeName) with
+            | [||] -> false
+            | [|_|] -> true
+            | _ -> true
         )
         
     and private findAllDerivingTypes (allTypes: Mono.Cecil.TypeDefinition list) (typesToCheck: Mono.Cecil.TypeDefinition list) (matchingTypes: Mono.Cecil.TypeDefinition list) =

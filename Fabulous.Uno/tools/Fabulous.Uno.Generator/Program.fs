@@ -19,7 +19,7 @@ module Program =
         | _ -> None
         
     let configuration =
-        { baseTypeName = "Windows.UI.Xaml.UIElement"
+        { baseTypeName = "Windows.UI.Xaml.DependencyObject"
           propertyBaseType = "Windows.UI.Xaml.DependencyProperty" }
 
     [<EntryPoint>]

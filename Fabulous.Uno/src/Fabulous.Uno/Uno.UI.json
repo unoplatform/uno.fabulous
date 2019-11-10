@@ -9,29 +9,8 @@
       "type": "Windows.UI.Xaml.DependencyObject",
       "canBeInstantiated": false,
       "properties": [
-        {
-          "source": null,
-          "Name": "Ref",
-          "canBeUpdated": false,
-          "defaultValue": "null",
-          "inputType": "ViewRef"
-        },
-        {
-          "source": null,
-          "name": "Tag",
-          "canBeUpdated": false,
-          "defaultValue": "null",
-          "inputType": "obj"
-        }
       ],
       "events": [
-        {
-          "source": null,
-          "name": "Created",
-          "canBeUpdated": false,
-          "inputType": "obj -> unit",
-          "modelType": "obj -> unit"
-        }
       ]
     },
     {
@@ -39,7 +18,7 @@
       "canBeInstantiated": false,
       "properties": [
         {
-          "source": "Opacity",
+          "source": "Opacity"
         }
       ],
       "events": [
@@ -47,10 +26,69 @@
     },
     {
       "type": "Windows.UI.Xaml.FrameworkElement",
-      "canBeInstantiated": false,
+      "canBeInstantiated": true,
       "properties": [
         {
-          "source": "Opacity",
+          "source": "Name"
+        },
+        {
+          "source": "Width"
+        },
+        {
+          "source": "Height"
+        }
+      ],
+      "events": [
+        {
+          "source": "Loaded",
+          "name": "LoadedEvent",
+          "canBeUpdated": false,
+          "inputType": "obj -> unit",
+          "modelType": "obj -> unit"
+        }
+      ]
+    },
+    {
+      "type": "Windows.UI.Xaml.Controls.Panel",
+      "canBeInstantiated": true,
+      "properties": [
+      ],
+      "events": [
+      ],
+      "primaryConstructorMembers": [
+        "Children"
+      ]
+    },
+    {
+      "type": "Windows.UI.Xaml.Controls.Grid",
+      "canBeInstantiated": true,
+      "properties": [
+        {
+          "source": "RowSpacing"
+        }
+      ],
+      "events": [
+      ]
+    },
+    {
+      "type": "Windows.UI.Xaml.Controls.StackPanel",
+      "canBeInstantiated": true,
+      "properties": [
+        {
+          "source": "Orientation"
+        }      ],
+      "events": [
+      ]
+    },
+    {
+      "type": "Windows.UI.Xaml.Controls.TextBlock",
+      "canBeInstantiated": true,
+      "properties": [
+        {
+          "source": "Text"
+        },
+        {
+          "source": "Foreground"
         }
       ],
       "events": [

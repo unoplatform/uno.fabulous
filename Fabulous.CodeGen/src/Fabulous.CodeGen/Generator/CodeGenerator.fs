@@ -207,7 +207,7 @@ module CodeGenerator =
                             w.printfn "        match prev%sOpt, curr%sOpt with" p.UniqueName p.UniqueName
                             w.printfn "        | ValueSome prevValue, ValueSome currValue when prevValue = currValue -> ()"
                             w.printfn "        | _, ValueSome currValue -> target.%s <- %s currValue" p.Name p.ConvertModelToValue
-                            w.printfn "        | ValueSome _, ValueNone -> target.%s <- %s"  p.Name p.DefaultValue
+                            w.printfn "        | ValueSome _, ValueNone -> target.ClearValue %s.%sProperty" data.FullName p.Name
                             w.printfn "        | ValueNone, ValueNone -> ()"
             
             // Subscribe event handlers
