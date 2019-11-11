@@ -21,7 +21,7 @@ module Reader =
             let eventHandlerType =
                 match edef.EventType with
                 | :? GenericInstanceType as git -> git.FullName |> Text.removeDotNetGenericNotation
-                | _ -> "System.EventHandler"
+                | _ -> edef.EventType.FullName
             
             { Name = edef.Name
               EventArgsType = eventArgsType |> Option.map convertTypeName |> Option.defaultValue "unit"

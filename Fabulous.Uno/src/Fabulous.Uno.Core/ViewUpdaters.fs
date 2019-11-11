@@ -338,33 +338,33 @@ module ViewUpdaters =
     //    match prevValueOpt with ValueNone -> () | ValueSome f -> target.SizeAllocated.RemoveHandler(f)
     //    match valueOpt with ValueNone -> () | ValueSome f -> target.SizeAllocated.AddHandler(f)
         
-    ///// Converts an F# function to a Xamarin.Forms ICommand
-    //let makeCommand f =
-    //    let ev = Event<_,_>()
-    //    { new ICommand with
-    //        member __.add_CanExecuteChanged h = ev.Publish.AddHandler h
-    //        member __.remove_CanExecuteChanged h = ev.Publish.RemoveHandler h
-    //        member __.CanExecute _ = true
-    //        member __.Execute _ = f() }
+    /// Converts an F# function to a Xamarin.Forms ICommand
+    let makeCommand f =
+        let ev = Event<_,_>()
+        { new ICommand with
+            member __.add_CanExecuteChanged h = ev.Publish.AddHandler h
+            member __.remove_CanExecuteChanged h = ev.Publish.RemoveHandler h
+            member __.CanExecute _ = true
+            member __.Execute _ = f() }
 
-    ///// Converts an F# function to a Xamarin.Forms ICommand, with a CanExecute value
-    //let makeCommandCanExecute f canExecute =
-    //    let ev = Event<_,_>()
-    //    { new ICommand with
-    //        member __.add_CanExecuteChanged h = ev.Publish.AddHandler h
-    //        member __.remove_CanExecuteChanged h = ev.Publish.RemoveHandler h
-    //        member __.CanExecute _ = canExecute
-    //        member __.Execute _ = f() }
+    /// Converts an F# function to a Xamarin.Forms ICommand, with a CanExecute value
+    let makeCommandCanExecute f canExecute =
+        let ev = Event<_,_>()
+        { new ICommand with
+            member __.add_CanExecuteChanged h = ev.Publish.AddHandler h
+            member __.remove_CanExecuteChanged h = ev.Publish.RemoveHandler h
+            member __.CanExecute _ = canExecute
+            member __.Execute _ = f() }
 
     ///// Update the Command and CanExecute properties of a control, given previous and current values
-    //let inline updateCommand prevCommandValueOpt commandValueOpt argTransform setter  prevCanExecuteValueOpt canExecuteValueOpt target = 
-    //    match prevCommandValueOpt, prevCanExecuteValueOpt, commandValueOpt, canExecuteValueOpt with 
-    //    | ValueNone, ValueNone, ValueNone, ValueNone -> ()
-    //    | ValueSome prevf, ValueNone, ValueSome f, ValueNone when identical prevf f -> ()
-    //    | ValueSome prevf, ValueSome prevx, ValueSome f, ValueSome x when identical prevf f && prevx = x -> ()
-    //    | _, _, ValueNone, _ -> setter target null
-    //    | _, _, ValueSome f, ValueNone -> setter target (makeCommand (fun () -> f (argTransform target)))
-    //    | _, _, ValueSome f, ValueSome k -> setter target (makeCommandCanExecute (fun () -> f (argTransform target)) k)
+    let inline updateCommand prevCommandValueOpt commandValueOpt argTransform setter  prevCanExecuteValueOpt canExecuteValueOpt target = 
+        match prevCommandValueOpt, prevCanExecuteValueOpt, commandValueOpt, canExecuteValueOpt with 
+        | ValueNone, ValueNone, ValueNone, ValueNone -> ()
+        | ValueSome prevf, ValueNone, ValueSome f, ValueNone when identical prevf f -> ()
+        | ValueSome prevf, ValueSome prevx, ValueSome f, ValueSome x when identical prevf f && prevx = x -> ()
+        | _, _, ValueNone, _ -> setter target null
+        | _, _, ValueSome f, ValueNone -> setter target (makeCommand (fun () -> f (argTransform target)))
+        | _, _, ValueSome f, ValueSome k -> setter target (makeCommandCanExecute (fun () -> f (argTransform target)) k)
 
     ///// Update the CurrentPage of a control, given previous and current values
     //let updateMultiPageOfTCurrentPage<'a when 'a :> Xamarin.Forms.Page> prevValueOpt valueOpt (target: Xamarin.Forms.MultiPage<'a>) =
@@ -374,24 +374,24 @@ module ViewUpdaters =
     //    | ValueSome _, ValueNone -> target.CurrentPage <- Unchecked.defaultof<'a>
     //    | _, ValueSome curr -> target.CurrentPage <- target.Children.[curr]
 
-    ///// Update the Minium and Maximum values of a slider, given previous and current values
-    //let updateSliderMinimumMaximum prevValueOpt valueOpt (target: obj) =
-    //    let control = target :?> Xamarin.Forms.Slider
-    //    let defaultValue = (0.0, 1.0)
-    //    let updateFunc (_, prevMaximum) (newMinimum, newMaximum) =
-    //        if newMinimum > prevMaximum then
-    //            control.Maximum <- newMaximum
-    //            control.Minimum <- newMinimum
-    //        else
-    //            control.Minimum <- newMinimum
-    //            control.Maximum <- newMaximum
+    /// Update the Minium and Maximum values of a slider, given previous and current values
+    let updateRangeBaseMinimumMaximum prevValueOpt valueOpt (target: obj) =
+        let control = target :?> Slider
+        let defaultValue = (0.0, 1.0)
+        let updateFunc (_, prevMaximum) (newMinimum, newMaximum) =
+            if newMinimum > prevMaximum then
+                control.Maximum <- newMaximum
+                control.Minimum <- newMinimum
+            else
+                control.Minimum <- newMinimum
+                control.Maximum <- newMaximum
 
-    //    match prevValueOpt, valueOpt with
-    //    | ValueNone, ValueNone -> ()
-    //    | ValueSome prev, ValueSome curr when prev = curr -> ()
-    //    | ValueSome prev, ValueSome curr -> updateFunc prev curr
-    //    | ValueSome prev, ValueNone -> updateFunc prev defaultValue
-    //    | ValueNone, ValueSome curr -> updateFunc defaultValue curr
+        match prevValueOpt, valueOpt with
+        | ValueNone, ValueNone -> ()
+        | ValueSome prev, ValueSome curr when prev = curr -> ()
+        | ValueSome prev, ValueSome curr -> updateFunc prev curr
+        | ValueSome prev, ValueNone -> updateFunc prev defaultValue
+        | ValueNone, ValueSome curr -> updateFunc defaultValue curr
 
     ///// Update the Minimum and Maximum values of a stepper, given previous and current values
     //let updateStepperMinimumMaximum prevValueOpt valueOpt (target: obj) =

@@ -28,18 +28,14 @@ module Reflection =
             match ``type``.ContainsGenericParameters with
             | true -> return None // Generic types are not supported
             | false ->
-                let dependencyPropertyFieldInfo = ``type``.GetField(propertyName + "Property")
-                let dependencyPropertyInfo = ``type``.GetProperty(propertyName + "Property")
-                if dependencyPropertyInfo <> null || dependencyPropertyFieldInfo <> null then
-                    let filteredProperties = ``type``.GetProperties() |> Array.filter (fun m -> m.Name.Equals(propertyName))
-                    return match filteredProperties with
-                            | [|property|] -> Some { 
-                                            Name = propertyName
-                                            Type = property.GetMethod.ReturnType |> toCleanTypeName
-                                            DefaultValue = null (*property.GetMetadata(``type``).DefaultValue*) }
-                            | _ -> None
-                else
-                    return None
+                let fullName = ``type``.FullName
+                let filteredProperties = ``type``.GetProperties() |> Array.filter (fun m -> m.Name.Equals(propertyName))
+                return match filteredProperties with
+                        | [||] -> None
+                        | _ -> Some { 
+                                        Name = propertyName
+                                        Type = (filteredProperties |> Array.head).GetMethod.ReturnType |> toCleanTypeName
+                                        DefaultValue = null (*property.GetMetadata(``type``).DefaultValue*) }
         }
                         
                             

@@ -1,13 +1,33 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>Exe</OutputType>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <WasmShellILLinkerEnabled>false</WasmShellILLinkerEnabled>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
+    <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  
   <ItemGroup>
+    <EmbeddedResource Include="WasmCSS\*.css" />
+    <EmbeddedResource Include="WasmScripts\*.js" />
+  </ItemGroup> 
+  <ItemGroup>
+    <None Include="WasmScripts\AppManifest.js" />
     <Compile Include="CounterApp.fs" />
+    <Compile Include="main.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Fabulous.Uno\Fabulous.Uno.fsproj" />
+    <PackageReference Include="Uno.UI" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" />
+    <DotNetCliToolReference Include="Uno.Wasm.Bootstrap.Cli" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\..\..\Packages.targets" />
 </Project>

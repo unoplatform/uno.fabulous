@@ -11,12 +11,17 @@
     <Compile Include="..\Fabulous.Uno.Core\CustomControls.fs" />
     <Compile Include="..\Fabulous.Uno.Core\ViewHelpers.fs" />
     <Compile Include="..\Fabulous.Uno.Core\ViewConverters.fs" />
+    <Compile Include="..\Fabulous.Uno.Core\Program.fs" />
     <Compile Include="..\Fabulous.Uno.Core\ViewUpdaters.fs" />
     <Compile Include="..\Fabulous.Uno.Core\ViewExtensions.fs" />
     <Compile Include="Uno.UI.fs" />
     <None Include="Uno.UI.json" />
   </ItemGroup>
   <ItemGroup>
+    <!-- Note that for WebAssembly version 1.1.1 of the console logger required -->
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
+    
     <PackageReference Include="Uno.UI" />
     <ProjectReference Include="..\..\..\src\Fabulous\Fabulous.fsproj" />
   </ItemGroup>

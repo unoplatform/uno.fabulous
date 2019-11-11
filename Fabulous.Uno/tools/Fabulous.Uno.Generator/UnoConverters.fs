@@ -26,6 +26,9 @@ module UnoConverters =
         | "System.EventHandler<Xamarin.Forms.VisualElement/FocusRequestArgs>" -> "System.EventHandler<Xamarin.Forms.VisualElement.FocusRequestArgs>"
         | "System.EventHandler<System.Tuple<System.String,System.String>>" -> "System.EventHandler<string * string>"
         | "System.Tuple<System.String,System.String>" -> "(string * string)"
+
+        //| "Windows.UI.Xaml.RoutedEventHandler" -> "System.EventHandler<Windows.UI.Xaml.FrameworkElement * System.Object>"
+        //| "Windows.Foundation.TypedEventHandler<Windows.UI.Xaml.FrameworkElement,System.Object>" -> "System.EventHandler<Windows.UI.Xaml.FrameworkElement * System.Object>"
         | _ -> Converters.convertTypeName typeName
         
     let rec tryGetStringRepresentationOfDefaultValue (defaultValue: obj) : string option =

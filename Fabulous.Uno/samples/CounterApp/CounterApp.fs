@@ -4,6 +4,8 @@ namespace CounterApp
 open Fabulous
 open Fabulous.Uno
 open System.Diagnostics
+open Windows.UI.Xaml
+open Windows.UI.Xaml.Controls
 
 module App = 
     type Model = 
@@ -45,38 +47,36 @@ module App =
         | TimedTick -> if model.TimerOn then { model with Count = model.Count + model.Step }, [ TickTimer ] else model, [] 
 
     let view (model: Model) dispatch =  
-        View.ContentPage(
-          content=View.StackLayout(padding = Thickness 30.0, verticalOptions = LayoutOptions.Center,
+          View.StackPanel(padding = Thickness 30.0, verticalAlignment = VerticalAlignment.Center,
             children=[
-              View.Label(automationId="CountLabel", text=sprintf "%d" model.Count, horizontalOptions=LayoutOptions.Center, width=200.0, horizontalTextAlignment=TextAlignment.Center)
-              View.Button(automationId="IncrementButton", text="Increment", command= (fun () -> dispatch Increment))
-              View.Button(automationId="DecrementButton", text="Decrement", command= (fun () -> dispatch Decrement)) 
-              View.StackLayout(padding = Thickness 20.0, orientation=StackOrientation.Horizontal, horizontalOptions=LayoutOptions.Center,
-                              children = [ View.Label(text="Timer")
-                                           View.Switch(automationId="TimerSwitch", isToggled=model.TimerOn, toggled=(fun on -> dispatch (TimerToggled on.Value))) ])
-              View.Slider(automationId="StepSlider", minimumMaximum=(0.0, 10.0), value= double model.Step, valueChanged=(fun args -> dispatch (SetStep (int (args.NewValue + 0.5)))))
-              View.Label(automationId="StepSizeLabel", text=sprintf "Step size: %d" model.Step, horizontalOptions=LayoutOptions.Center)
-              View.Button(text="Reset", horizontalOptions=LayoutOptions.Center, command=(fun () -> dispatch Reset), commandCanExecute = (model <> initModel () ))
-            ]))
+              View.TextBlock(text=sprintf "%d" model.Count, horizontalAlignment=HorizontalAlignment.Center, width=200.0, horizontalTextAlignment=TextAlignment.Center)
+              View.Button(content="Increment", command= (fun () -> dispatch Increment))
+              View.Button(content="Decrement", command= (fun () -> dispatch Decrement)) 
+              View.TextBlock(text=sprintf "Step size: %d" model.Step, horizontalAlignment=HorizontalAlignment.Center)
+              View.Button(content="Reset", horizontalAlignment=HorizontalAlignment.Center, command=(fun () -> dispatch Reset), commandCanExecute = (model <> initModel () ))
+            ])
              
     let program = 
         Program.mkProgramWithCmdMsg init update view mapCmdMsgToCmd
 
 
-
-
 type CounterApp () as app = 
     inherit Application ()
 
-    let runner =
+    override u.OnLaunched activatedArgs =
+        Windows.UI.Xaml.GenericStyles.Initialize()
+        Windows.ApplicationModel.Resources.ResourceLoader.DefaultLanguage <- "en-US"
+        Windows.ApplicationModel.Resources.ResourceLoader.AddLookupAssembly(System.Reflection.Assembly.Load("Uno.UI, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null"))
+
         App.program
         |> Program.withConsoleTrace
-        |> XamarinFormsProgram.run app
+        |> UnoProgram.run app
+
 
 #if DEBUG
     // Run LiveUpdate using: 
     //    
-    do runner.EnableLiveUpdate ()
+    // do runner.EnableLiveUpdate ()
 #endif
 
 

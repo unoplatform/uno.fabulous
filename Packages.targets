@@ -28,6 +28,8 @@
         <PackageReference Update="Microsoft.FSharpLu.Json" Version="0.11.2" />
         <PackageReference Update="CommandLineParser.FSharp" Version="2.5.0" />
         <PackageReference Update="Uno.UI" Version="2.0.512-dev.3874" />
+        <PackageReference Update="Uno.UI.Bootstrap" Version="1.0.0" />
+        <DotNetCliToolReference  Update="Uno.UI.Bootstrap.Cli" Version="1.0.0" />
     </ItemGroup>
     <PropertyGroup>
         <RestoreSources>

@@ -36,6 +36,12 @@
         },
         {
           "source": "Height"
+        },
+        {
+          "source": "HorizontalAlignment"
+        },
+        {
+          "source": "VerticalAlignment"
         }
       ],
       "events": [
@@ -49,14 +55,110 @@
       ]
     },
     {
-      "type": "Windows.UI.Xaml.Controls.Panel",
+      "type": "Windows.UI.Xaml.Controls.ContentControl",
+      "canBeInstantiated": true,
+      "properties": [
+        {
+          "source": "Content"
+        }
+      ],
+      "events": [
+      ]
+    },
+    {
+      "type": "Windows.UI.Xaml.Controls.Primitives.ButtonBase",
+      "canBeInstantiated": false,
+      "properties": [
+        {
+          "source": "Command"
+        }
+      ],
+      "events": [
+      ]
+    },
+    {
+      "type": "Windows.UI.Xaml.Controls.Button",
+      "canBeInstantiated": true,
+      "properties": [
+      ],
+      "events": [
+      ]
+    },
+    {
+      "type": "Windows.UI.Xaml.Controls.Primitives.RangeBase",
+      "canBeInstantiated": false,
+      "properties": [
+        {
+          "source": "Value"
+        },
+        {
+          "source": null,
+          "name": "MinimumMaximum",
+          "defaultValue": "(0,100)",
+          "inputType": "double * double",
+          "updateCode": "ViewUpdaters.updateRangeBaseMinimumMaximum"
+        }
+      ],
+      "events": [
+        {
+          "source": "ValueChanged",
+          "inputType": "double -> unit",
+          "convertInputToModel": "ViewConverters.makeValueChangedEventHandler",
+          "relatedProperties": [
+            "Value"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Windows.UI.Xaml.Controls.Slider",
       "canBeInstantiated": true,
       "properties": [
       ],
       "events": [
       ],
       "primaryConstructorMembers": [
-        "Children"
+        "Value"
+      ]
+    },
+    {
+      "type": "Windows.UI.Xaml.Controls.ToggleSwitch",
+      "canBeInstantiated": true,
+      "properties": [
+        {
+          "source": "IsOn"
+        }
+      ],
+      "events": [
+        {
+          "source": "Toggled",
+          "inputType": "bool -> unit",
+          "convertInputToModel": "ViewConverters.makeToggledEventHandler",
+          "relatedProperties": [
+            "IsOn"
+          ]
+        }
+      ],
+      "primaryConstructorMembers": [
+        "IsOn"
+      ]
+    },
+    {
+      "type": "Windows.UI.Xaml.Controls.Panel",
+      "canBeInstantiated": false,
+      "properties": [
+        {
+          "source": "Padding"
+        },
+        {
+          "source": "Children",
+          "inputType": "ViewElement list",
+          "collection": {
+            "elementType": "Windows.UI.Xaml.UIElement"
+          }
+        }
+      ],
+      "events": [
       ]
     },
     {
@@ -68,6 +170,9 @@
         }
       ],
       "events": [
+      ],
+      "primaryConstructorMembers": [
+        "Children"
       ]
     },
     {
@@ -76,8 +181,12 @@
       "properties": [
         {
           "source": "Orientation"
-        }      ],
+        }
+      ],
       "events": [
+      ],
+      "primaryConstructorMembers": [
+        "Children"
       ]
     },
     {
@@ -86,6 +195,9 @@
       "properties": [
         {
           "source": "Text"
+        },
+        {
+          "source": "HorizontalTextAlignment"
         },
         {
           "source": "Foreground"

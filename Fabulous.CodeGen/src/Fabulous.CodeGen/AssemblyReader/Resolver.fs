@@ -58,15 +58,27 @@ module Resolver =
             |> Seq.filter (fun fdef -> fdef.IsStatic && fdef.FieldType.FullName = propertyBaseType && fdef.Name.EndsWith("Property"))
             |> Seq.filter (fun fdef -> ``type``.Properties |> Seq.exists (fun pdef -> pdef.Name = fdef.Name.Replace("Property", "")) |> not)
             |> Seq.toArray
+
+    let rec implementsInterface (``type``: TypeDefinition) (interfaceTypeName: string) =
+        let ifaces = 
+            ``type``.Interfaces.ToArray() 
+            |> Array.filter (fun i -> i.InterfaceType.GetElementType().FullName.Equals(interfaceTypeName))
+
+        match ifaces with
+        | [||] -> match ``type``.BaseType with
+                  | null -> false
+                  | _ -> implementsInterface (``type``.BaseType.Resolve()) interfaceTypeName
+        | _ -> true
     
     /// Finds all not settable list properties for a given type
     let getAllListPropertiesWithNoSetterForType (``type``: TypeDefinition) =
+        let fullName = ``type``.FullName
         if not ``type``.HasProperties then
             [||]
         else
             ``type``.Properties
             |> Seq.filter (fun pdef -> pdef.GetMethod <> null && pdef.GetMethod.IsPublic && pdef.SetMethod = null)
-            |> Seq.filter (fun pdef -> pdef.PropertyType.GetElementType().FullName = "System.Collections.Generic.IList`1")
+            |> Seq.filter (fun pdef -> implementsInterface (pdef.PropertyType.Resolve()) "System.Collections.Generic.IList`1")
             |> Seq.toArray
 
     /// Finds all settable properties for a given type

@@ -8,6 +8,7 @@ open System.Collections.ObjectModel
 open Windows.UI.Xaml.Controls
 open Windows.UI.Xaml.Media
 open Windows.UI.Xaml
+open Windows.UI.Xaml.Controls.Primitives
 
 module CollectionHelpers =
     /// Try and find a specific ListView item
@@ -94,7 +95,18 @@ module ViewConverters =
     /////////////////
     /// Event Handlers
     /////////////////
-        
+
+    let makeToggledEventHandler f =
+        System.EventHandler(fun sender args ->
+            let toggleSwitch = sender :?> ToggleSwitch
+            f (toggleSwitch.IsOn)
+        )
+
+    let makeValueChangedEventHandler f =
+        System.EventHandler(fun sender args ->
+            let rangeBase = sender :?> RangeBase
+            f (rangeBase.Value)
+        )      
     //let makeCurrentPageChanged<'a when 'a :> Xamarin.Forms.Page and 'a : null> f =
     //    System.EventHandler(fun sender _args ->
     //        let control = sender :?> Xamarin.Forms.MultiPage<'a>
