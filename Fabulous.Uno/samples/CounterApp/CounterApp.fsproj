@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
     <WasmShellILLinkerEnabled>false</WasmShellILLinkerEnabled>
+    <MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -25,9 +26,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Fabulous.Uno\Fabulous.Uno.fsproj" />
     <PackageReference Include="Uno.UI" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" />
-    <DotNetCliToolReference Include="Uno.Wasm.Bootstrap.Cli" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.0.0" />
+    
+    <!-- The version needs to be specified here to avoid a dotnet.exe parsing error -->
+    <DotNetCliToolReference Include="Uno.Wasm.Bootstrap.Cli"  Version="1.0.0" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="..\..\..\Packages.targets" />
 </Project>
+ 

@@ -52,8 +52,26 @@ module App =
               View.TextBlock(text=sprintf "%d" model.Count, horizontalAlignment=HorizontalAlignment.Center, width=200.0, horizontalTextAlignment=TextAlignment.Center)
               View.Button(content="Increment", command= (fun () -> dispatch Increment))
               View.Button(content="Decrement", command= (fun () -> dispatch Decrement)) 
-              View.TextBlock(text=sprintf "Step size: %d" model.Step, horizontalAlignment=HorizontalAlignment.Center)
-              View.Button(content="Reset", horizontalAlignment=HorizontalAlignment.Center, command=(fun () -> dispatch Reset), commandCanExecute = (model <> initModel () ))
+              View.StackPanel(
+                padding = Thickness 20.0, 
+                orientation=Orientation.Horizontal,
+                horizontalAlignment=HorizontalAlignment.Center,
+                children = [ 
+                    View.TextBlock(text="Timer")
+                    View.ToggleSwitch(
+                        isOn=model.TimerOn, 
+                        toggled=(fun on -> dispatch (TimerToggled on))) ])
+              View.Slider(
+                minimumMaximum=(0.0, 10.0), 
+                value= double model.Step, 
+                valueChanged=(fun args -> dispatch (SetStep (int (args + 0.5)))))
+              View.TextBlock(
+                text=sprintf "Step size: %d" model.Step, 
+                horizontalAlignment=HorizontalAlignment.Center)
+              View.Button(
+                content="Reset", 
+                horizontalAlignment=HorizontalAlignment.Center, 
+                command=(fun () -> dispatch Reset), commandCanExecute = (model <> initModel()))
             ])
              
     let program = 
@@ -68,16 +86,18 @@ type CounterApp () as app =
         Windows.ApplicationModel.Resources.ResourceLoader.DefaultLanguage <- "en-US"
         Windows.ApplicationModel.Resources.ResourceLoader.AddLookupAssembly(System.Reflection.Assembly.Load("Uno.UI, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null"))
 
-        App.program
-        |> Program.withConsoleTrace
-        |> UnoProgram.run app
+        let runner = App.program
+                    |> Program.withConsoleTrace
+                    |> UnoProgram.run app
 
 
 #if DEBUG
-    // Run LiveUpdate using: 
-    //    
-    // do runner.EnableLiveUpdate ()
+        // Run LiveUpdate using: 
+        //    
+        // do runner.EnableLiveUpdate ()
 #endif
+
+        runner
 
 
 #if SAVE_MODEL_WITH_JSON
