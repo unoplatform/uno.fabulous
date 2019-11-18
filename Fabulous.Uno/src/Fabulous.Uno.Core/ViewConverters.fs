@@ -97,13 +97,13 @@ module ViewConverters =
     /////////////////
 
     let makeToggledEventHandler f =
-        System.EventHandler(fun sender args ->
+        RoutedEventHandler (fun sender args ->
             let toggleSwitch = sender :?> ToggleSwitch
-            f (toggleSwitch.IsOn)
+            f (toggleSwitch.IsOn)   
         )
 
     let makeValueChangedEventHandler f =
-        System.EventHandler(fun sender args ->
+        Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventHandler(fun sender args ->
             let rangeBase = sender :?> RangeBase
             f (rangeBase.Value)
         )      
